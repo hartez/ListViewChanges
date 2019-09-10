@@ -1,27 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using System.Collections.Specialized;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace ListViewChanges
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         CustomObservableCollection<Item> _data;
@@ -67,49 +49,6 @@ namespace ListViewChanges
             };
 
             _data.InsertRange(toInsert, 3);
-        }
-    }
-
-    public class Item
-    {
-        public string Name { get; set; }
-    }
-
-    public class CustomObservableCollection<T> : ObservableCollection<T>
-    {
-        public void RemoveRange(int start, int end)
-        {
-            var removed = new List<T>(end - start);
-
-            for (int n = end - 1; n >= start; n--)
-            {
-                removed.Insert(0, this[n]);
-                Items.Remove(this[n]);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removed, start));
-        }
-
-        internal void AddRange(List<T> toAdd)
-        {
-            var startIndex = Items.Count;
-
-            foreach (var item in toAdd)
-            {
-                Items.Add(item);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, toAdd, startIndex));
-        }
-
-        internal void InsertRange(List<T> toInsert, int startIndex)
-        {
-            for(int n = 0; n < toInsert.Count; n++)
-            {
-                Items.Insert(startIndex + n, toInsert[n]);
-            }
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, toInsert, startIndex));
         }
     }
 }
